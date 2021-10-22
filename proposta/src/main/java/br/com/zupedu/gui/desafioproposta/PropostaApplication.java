@@ -1,4 +1,4 @@
-package br.com.zupedu.gui.proposta;
+package br.com.zupedu.gui.desafioproposta;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
