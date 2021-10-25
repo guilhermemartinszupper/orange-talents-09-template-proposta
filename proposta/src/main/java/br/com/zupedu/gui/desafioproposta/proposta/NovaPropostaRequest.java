@@ -1,6 +1,7 @@
 package br.com.zupedu.gui.desafioproposta.proposta;
 
-import br.com.zupedu.gui.desafioproposta.validator.ValidaDocumento;
+import br.com.zupedu.gui.desafioproposta.commons.DocumentoExiste;
+import br.com.zupedu.gui.desafioproposta.commons.ValidaDocumento;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -9,8 +10,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 public class NovaPropostaRequest {
-    @NotBlank
-    @ValidaDocumento
+    @NotBlank @ValidaDocumento @DocumentoExiste(domainClass = Proposta.class,nomeCampo = "documento")
     private String documento;
     @NotBlank @Email
     private String email;
@@ -27,6 +27,26 @@ public class NovaPropostaRequest {
         this.nome = nome;
         this.endereco = endereco;
         this.salarioBruto = salarioBruto;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public BigDecimal getSalarioBruto() {
+        return salarioBruto;
     }
 
     public Proposta toModel() {

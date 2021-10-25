@@ -1,4 +1,4 @@
-package br.com.zupedu.gui.desafioproposta.validator;
+package br.com.zupedu.gui.desafioproposta.commons;
 
 import org.hibernate.validator.constraints.CompositionType;
 import org.hibernate.validator.constraints.ConstraintComposition;

@@ -38,4 +38,12 @@ public class RestControllerAdviceHandler {
         });
         return erros;
     }
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(DocumentoRepetidoException.class)
+    public ErroDTO handleDocumentoRepetidoException(DocumentoRepetidoException exception){
+        return new ErroDTO("documento",exception.getMessage());
+    }
+
+
+
 }

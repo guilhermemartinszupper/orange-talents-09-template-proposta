@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 @Entity
 public class Proposta {
@@ -38,7 +39,7 @@ public class Proposta {
         Assert.isTrue(nome != null && nome.length() > 0, "Nome nao pode ser vazio e nem nulo");
         Assert.isTrue(endereco != null && endereco.length() > 0, "Endereco nao pode ser vazio e nem nulo");
         Assert.isTrue(salarioBruto != null && salarioBruto.compareTo(BigDecimal.ZERO) > -1, "Salario nao pode ser nulo nem negativo");
-        this.documento = documento;
+        this.documento = documento.replaceAll("[^a-zA-Z0-9]", "");
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
