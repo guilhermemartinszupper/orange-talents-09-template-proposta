@@ -2,6 +2,7 @@ package br.com.zupedu.gui.desafioproposta.proposta;
 
 import br.com.zupedu.gui.desafioproposta.commons.DocumentoExiste;
 import br.com.zupedu.gui.desafioproposta.commons.ValidaDocumento;
+import br.com.zupedu.gui.desafioproposta.proposta.analise.StatusProposta;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -50,6 +51,8 @@ public class NovaPropostaRequest {
     }
 
     public Proposta toModel() {
-        return new Proposta(this.documento,this.email,this.nome,this.endereco,this.salarioBruto);
+        Proposta proposta = new Proposta(this.documento,this.email,this.nome,this.endereco,this.salarioBruto);
+        proposta.setStatusProposta(StatusProposta.EM_ANALISE);
+        return proposta;
     }
 }

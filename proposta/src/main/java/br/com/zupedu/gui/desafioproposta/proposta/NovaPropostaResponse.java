@@ -1,5 +1,7 @@
 package br.com.zupedu.gui.desafioproposta.proposta;
 
+import br.com.zupedu.gui.desafioproposta.proposta.analise.StatusProposta;
+
 import java.math.BigDecimal;
 
 public class NovaPropostaResponse {
@@ -8,6 +10,10 @@ public class NovaPropostaResponse {
     private String nome;
     private String endereco;
     private BigDecimal salarioBruto;
+    private StatusProposta statusProposta;
+
+    public NovaPropostaResponse() {
+    }
 
     public NovaPropostaResponse(Proposta proposta) {
         this.documento = proposta.getDocumento();
@@ -15,6 +21,7 @@ public class NovaPropostaResponse {
         this.nome = proposta.getNome();
         this.endereco = proposta.getEndereco();
         this.salarioBruto = proposta.getSalarioBruto();
+        this.statusProposta = proposta.getStatusProposta();
     }
 
 
@@ -36,5 +43,9 @@ public class NovaPropostaResponse {
 
     public BigDecimal getSalarioBruto() {
         return salarioBruto;
+    }
+
+    public StatusProposta getStatusProposta() {
+        return statusProposta;
     }
 }

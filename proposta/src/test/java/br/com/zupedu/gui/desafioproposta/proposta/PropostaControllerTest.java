@@ -1,6 +1,8 @@
 package br.com.zupedu.gui.desafioproposta.proposta;
 
+import br.com.zupedu.gui.desafioproposta.proposta.analise.StatusProposta;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,14 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 
@@ -114,6 +119,38 @@ public class PropostaControllerTest {
                 .andExpect(
                         status().isUnprocessableEntity()
                 );
-
     }
+    @Test
+    void deveRetornarPropostaElegivel() throws Exception {
+        NovaPropostaRequest propostaRequest = new NovaPropostaRequest("516.303.020-58","email@teste.com",
+                "Joao Teste","Rua Teste n 123",new BigDecimal("2000.00"));
+        String request = mapper.writeValueAsString(propostaRequest);
+        String URI = "/propostas";
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
+        MvcResult result = mockMvc.perform(consultaRequest)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(
+                        MockMvcResultMatchers.status().isCreated()
+                )
+                .andReturn();
+        NovaPropostaResponse response = mapper.readValue(result.getResponse().getContentAsString(), NovaPropostaResponse.class);
+        Assertions.assertEquals(StatusProposta.ELEGIVEL, response.getStatusProposta());
+    }
+    @Test
+    void deveRetornarPropostaNaoElegivel() throws Exception {
+        NovaPropostaRequest propostaRequest = new NovaPropostaRequest("386.345.910-50","email@teste.com",
+                "Joao Teste","Rua Teste n 123",new BigDecimal("2000.00"));
+        String request = mapper.writeValueAsString(propostaRequest);
+        String URI = "/propostas";
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
+        MvcResult result = mockMvc.perform(consultaRequest)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(
+                        MockMvcResultMatchers.status().isCreated()
+                )
+                .andReturn();
+        NovaPropostaResponse response = mapper.readValue(result.getResponse().getContentAsString(), NovaPropostaResponse.class);
+        Assertions.assertEquals(StatusProposta.NAO_ELEGIVEL, response.getStatusProposta());
+    }
+
 }
