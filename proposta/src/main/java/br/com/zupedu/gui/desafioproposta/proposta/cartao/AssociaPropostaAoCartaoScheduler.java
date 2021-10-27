@@ -22,6 +22,7 @@ public class AssociaPropostaAoCartaoScheduler {
     private final Logger logger = LoggerFactory.getLogger(AssociaPropostaAoCartaoScheduler
             .class);
 
+    //Job para verificar quais propostas estao elegiveis e ainda nao possui cartão
     @Scheduled(fixedDelay = 10 * 1000) //10 segundos
     protected void associaCartao(){
         List<Proposta> propostas = propostaRepository.findAllByStatusPropostaAndCartao(StatusProposta.ELEGIVEL, null, PageRequest.ofSize(100));

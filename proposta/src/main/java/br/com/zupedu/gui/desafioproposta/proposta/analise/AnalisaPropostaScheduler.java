@@ -22,7 +22,8 @@ public class AnalisaPropostaScheduler {
 
     private final Logger logger = LoggerFactory.getLogger(AnalisaPropostaScheduler.class);
 
-
+    //Envia uma requisição para a API de analise e verifica se a proposta é Elegivel ou nao, caso aconteça algum erro
+    //imprime o erro na tela atraves do log
     private void analisaProposta(Proposta proposta) {
         SolicitacaoAnaliseRequest request = new SolicitacaoAnaliseRequest(proposta);
         try {
@@ -32,12 +33,12 @@ public class AnalisaPropostaScheduler {
             proposta.setStatusProposta(StatusProposta.NAO_ELEGIVEL);
         }catch (Exception e){
             logger.warn("Houve algum erro na analise da proposta:" + e.getMessage());
-            proposta.setStatusProposta(StatusProposta.EM_ANALISE);
         }
         logger.info("Status da Proposta id={} definido: {}",
                 proposta.getId(),proposta.getStatusProposta() );
     }
 
+    //Job para verificar todas as propostas no banco que ainda estao em_analise e analisa-las novamente.
     @Scheduled(fixedDelay = 10000) //10 segundos
     protected void analisaNovamentePropostasEmAnalise(){
         List<Proposta> propostas = propostaRepository.findAllByStatusProposta(StatusProposta.EM_ANALISE, PageRequest.ofSize(2));
