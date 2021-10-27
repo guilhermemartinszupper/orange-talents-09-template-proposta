@@ -120,37 +120,4 @@ public class PropostaControllerTest {
                         status().isUnprocessableEntity()
                 );
     }
-    @Test
-    void deveRetornarPropostaElegivel() throws Exception {
-        NovaPropostaRequest propostaRequest = new NovaPropostaRequest("516.303.020-58","email@teste.com",
-                "Joao Teste","Rua Teste n 123",new BigDecimal("2000.00"));
-        String request = mapper.writeValueAsString(propostaRequest);
-        String URI = "/propostas";
-        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
-        MvcResult result = mockMvc.perform(consultaRequest)
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(
-                        MockMvcResultMatchers.status().isCreated()
-                )
-                .andReturn();
-        NovaPropostaResponse response = mapper.readValue(result.getResponse().getContentAsString(), NovaPropostaResponse.class);
-        Assertions.assertEquals(StatusProposta.ELEGIVEL, response.getStatusProposta());
-    }
-    @Test
-    void deveRetornarPropostaNaoElegivel() throws Exception {
-        NovaPropostaRequest propostaRequest = new NovaPropostaRequest("386.345.910-50","email@teste.com",
-                "Joao Teste","Rua Teste n 123",new BigDecimal("2000.00"));
-        String request = mapper.writeValueAsString(propostaRequest);
-        String URI = "/propostas";
-        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
-        MvcResult result = mockMvc.perform(consultaRequest)
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(
-                        MockMvcResultMatchers.status().isCreated()
-                )
-                .andReturn();
-        NovaPropostaResponse response = mapper.readValue(result.getResponse().getContentAsString(), NovaPropostaResponse.class);
-        Assertions.assertEquals(StatusProposta.NAO_ELEGIVEL, response.getStatusProposta());
-    }
-
 }

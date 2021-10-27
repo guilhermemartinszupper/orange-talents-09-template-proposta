@@ -1,6 +1,7 @@
 package br.com.zupedu.gui.desafioproposta.proposta;
 
 import br.com.zupedu.gui.desafioproposta.proposta.analise.StatusProposta;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -22,6 +23,8 @@ public class Proposta {
     private BigDecimal salarioBruto;
     @Enumerated(EnumType.STRING)
     private StatusProposta statusProposta;
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -68,20 +71,15 @@ public class Proposta {
         return statusProposta;
     }
 
+    public Cartao getCartao() {
+        return cartao;
+    }
+
     public void setStatusProposta(StatusProposta statusProposta) {
         this.statusProposta = statusProposta;
     }
 
-    @Override
-    public String toString() {
-        return "Proposta{" +
-                "id=" + id +
-                ", documento='" + documento + '\'' +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", salarioBruto=" + salarioBruto +
-                ", statusProposta=" + statusProposta +
-                '}';
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 }
