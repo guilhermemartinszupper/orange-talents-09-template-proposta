@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,12 @@ public class RestControllerAdviceHandler {
     @ExceptionHandler(DocumentoRepetidoException.class)
     public ErroDTO handleDocumentoRepetidoException(DocumentoRepetidoException exception){
         return new ErroDTO("documento",exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ErroDTO handleDocumentoRepetidoException(EntityNotFoundException exception){
+        return new ErroDTO("id",exception.getMessage());
     }
 
 
