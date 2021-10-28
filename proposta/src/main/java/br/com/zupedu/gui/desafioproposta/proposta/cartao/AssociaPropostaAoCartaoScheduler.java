@@ -35,7 +35,7 @@ public class AssociaPropostaAoCartaoScheduler {
                     proposta.setCartao(cartao);
                     propostaRepository.save(proposta);
                     logger.info("Cartao da Proposta id={} final associado: {}",
-                            proposta.getId(),cartao.ofuscaIdCartao());
+                            proposta.getId(),cartao.ofuscaNumeroCartao());
                 }catch (Exception e){
                     logger.info("Cartao da Proposta id={} ainda nao foi gerado",
                             proposta.getId());

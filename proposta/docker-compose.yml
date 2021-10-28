@@ -120,20 +120,20 @@ services:
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
     networks:
       - production-network
-  proposta:
-    image: 'guilherme/proposta'
-    ports:
-      - 8080:8080
-    depends_on:
-      - mysql
-      - analise
-      - contas
-    environment:
-      MYSQL_URL: jdbc:mysql://mysql:3306/db
-      ANALISE_URL: analise:9999
-      CONTA_URL: contas:8888
-    networks:
-      - production-network
+#  proposta:
+#    image: 'guilherme/proposta'
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - mysql
+#      - analise
+#      - contas
+#    environment:
+#      MYSQL_URL: jdbc:mysql://mysql:3306/db
+#      ANALISE_URL: analise:9999
+#      CONTA_URL: contas:8888
+#    networks:
+#      - production-network
 
 
   jaeger:

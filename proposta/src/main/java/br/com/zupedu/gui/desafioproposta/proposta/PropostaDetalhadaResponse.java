@@ -2,6 +2,7 @@ package br.com.zupedu.gui.desafioproposta.proposta;
 
 import br.com.zupedu.gui.desafioproposta.proposta.analise.StatusProposta;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.CartaoPropostaResponse;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ public class PropostaDetalhadaResponse {
     private String endereco;
     private BigDecimal salarioBruto;
     private StatusProposta statusProposta;
-    private Cartao cartao;
+    private CartaoPropostaResponse cartao;
 
     public PropostaDetalhadaResponse(Proposta proposta) {
         Assert.notNull(proposta, "proposta nao pode ser null");
@@ -27,7 +28,7 @@ public class PropostaDetalhadaResponse {
         this.salarioBruto = proposta.getSalarioBruto();
         this.statusProposta = proposta.getStatusProposta();
         if(proposta.getCartao() != null){
-            this.cartao = proposta.getCartao();
+            this.cartao = new CartaoPropostaResponse(proposta.getCartao());
         }
     }
 
@@ -59,7 +60,7 @@ public class PropostaDetalhadaResponse {
         return statusProposta;
     }
 
-    public Cartao getCartao() {
+    public CartaoPropostaResponse getCartao() {
         return cartao;
     }
 }
