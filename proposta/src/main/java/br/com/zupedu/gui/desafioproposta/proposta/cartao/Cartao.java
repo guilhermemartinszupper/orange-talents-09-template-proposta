@@ -1,6 +1,8 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao;
 
+import br.com.zupedu.gui.desafioproposta.handler.CartaoJaEstaBloqueadoException;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.biometria.Biometria;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio.Bloqueio;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -17,6 +19,8 @@ public class Cartao {
     private Integer limite;
     @OneToMany(mappedBy = "cartao",cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
     private List<Biometria> biometrias = new ArrayList<>();
+    @OneToOne(mappedBy = "cartao",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Bloqueio bloqueio;
 
     @Deprecated
     public Cartao() {
@@ -58,6 +62,10 @@ public class Cartao {
         return biometrias.get(p);
     }
 
+    public Bloqueio getBloqueio() {
+        return bloqueio;
+    }
+
     public String ofuscaNumeroCartao() {
         return numeroCartao.substring(numeroCartao.length() - 4);
     }
@@ -65,5 +73,13 @@ public class Cartao {
     public void adicionaBiometria(Biometria biometria) {
         Assert.notNull(biometria, "biometria nao pode ser null");
         biometrias.add(biometria);
+    }
+
+    public void bloquear(Bloqueio bloqueio) {
+        if(this.bloqueio != null){
+            throw new CartaoJaEstaBloqueadoException("Esse Cartão Ja Possui Um Bloqueio");
+        }
+        this.bloqueio = bloqueio;
+
     }
 }

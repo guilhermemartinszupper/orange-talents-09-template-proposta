@@ -1,6 +1,5 @@
 package br.com.zupedu.gui.desafioproposta.proposta;
 
-import br.com.zupedu.gui.desafioproposta.proposta.analise.SolicitacaoAnaliseClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

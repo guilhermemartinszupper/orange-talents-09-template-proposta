@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/biometrias")
+@RequestMapping("/cartoes/biometrias")
 public class BiometriaController {
 
     @Autowired
