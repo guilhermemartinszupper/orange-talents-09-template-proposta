@@ -3,22 +3,29 @@ package br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio;
 import br.com.zupedu.gui.desafioproposta.proposta.Proposta;
 import br.com.zupedu.gui.desafioproposta.proposta.PropostaRepository;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.CartaoRepository;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.ContaClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureDataJpa
 @Transactional
 @ActiveProfiles(profiles = "test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
 class BloqueioControllerTest {
     @Autowired
     ObjectMapper mapper;
@@ -35,6 +43,10 @@ class BloqueioControllerTest {
     MockMvc mockMvc;
     @Autowired
     PropostaRepository propostaRepository;
+    @MockBean
+    ContaClient contaClient;
+    @Autowired
+    CartaoRepository cartaoRepository;
 
     String URI = "/cartoes/bloqueios";
 
@@ -52,6 +64,8 @@ class BloqueioControllerTest {
     void deveRealizarUmBloqueioParaUmCartaoExistente() throws Exception {
         MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON)
                 .header("User-Agent","PostmanRuntime/7.28.4");
+        SolicitacaoBloqueioResponse bloqueioResponse = Mockito.mock(SolicitacaoBloqueioResponse.class);
+        Mockito.when(contaClient.solicitarBloqueio(Mockito.any(),Mockito.any())).thenReturn(new SolicitacaoBloqueioResponse(ResultadoBloqueio.BLOQUEADO));
         mockMvc.perform(consultaRequest)
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -75,9 +89,8 @@ class BloqueioControllerTest {
     void deveRetornar422CasoJaExistaUmBloqueioParaOCartao() throws Exception {
         MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON)
                 .header("User-Agent","PostmanRuntime/7.28.4");
-        mockMvc.perform(consultaRequest)
-                .andDo(print())
-                .andExpect(status().isOk());
+        Optional<Cartao> cartao = cartaoRepository.findById(1L);
+        cartao.get().bloquear();
         mockMvc.perform(consultaRequest)
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity() );

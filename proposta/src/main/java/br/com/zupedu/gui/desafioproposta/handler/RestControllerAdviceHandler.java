@@ -49,6 +49,11 @@ public class RestControllerAdviceHandler {
     public ErroDTO handleDocumentoRepetidoException(CartaoJaEstaBloqueadoException exception){
         return new ErroDTO("bloqueio",exception.getMessage());
     }
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(FalhaAoBloquearException.class)
+    public ErroDTO handleDocumentoRepetidoException(FalhaAoBloquearException exception){
+        return new ErroDTO("bloqueio",exception.getMessage());
+    }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)

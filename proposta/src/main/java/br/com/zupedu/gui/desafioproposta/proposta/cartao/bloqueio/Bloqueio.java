@@ -12,8 +12,10 @@ public class Bloqueio {
     private String ipCliente;
     private String userAgent;
     private LocalDateTime instanteBloqueio = LocalDateTime.now();
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Cartao cartao;
+    @Enumerated(EnumType.STRING)
+    private ResultadoBloqueio resultadoBloqueio;
 
     @Deprecated
     public Bloqueio() {
@@ -23,6 +25,14 @@ public class Bloqueio {
         this.ipCliente = ipCliente;
         this.userAgent = userAgent;
         this.cartao = cartao;
+    }
+
+    public ResultadoBloqueio getResultadoBloqueio() {
+        return resultadoBloqueio;
+    }
+
+    public void setResultadoBloqueio(ResultadoBloqueio resultadoBloqueio) {
+        this.resultadoBloqueio = resultadoBloqueio;
     }
 
     public Long getId() {

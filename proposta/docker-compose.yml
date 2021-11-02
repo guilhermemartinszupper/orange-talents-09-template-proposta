@@ -128,12 +128,13 @@ services:
 #      - mysql
 #      - analise
 #      - contas
+#      - keycloack
 #    environment:
 #      MYSQL_URL: jdbc:mysql://mysql:3306/db
 #      ANALISE_URL: analise:9999
 #      CONTA_URL: contas:8888
-#      KEYCLOAK_ISSUER_URI: keycloak:18080/auth/realms/propostasrealm
-#      KEYCLOAK_JWKS_URI: keycloak:18080/auth/realms/propostasrealm/protocol/openid-connect/certs
+#      KEYCLOAK_ISSUER_URI: http://keycloak:18080/auth/realms/propostasrealm
+#      KEYCLOAK_JWKS_URI: http://keycloak:18080/auth/realms/propostasrealm/protocol/openid-connect/certs
 #    networks:
 #      - production-network
 

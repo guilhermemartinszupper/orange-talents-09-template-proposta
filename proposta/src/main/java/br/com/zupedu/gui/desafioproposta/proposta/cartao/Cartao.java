@@ -19,8 +19,8 @@ public class Cartao {
     private Integer limite;
     @OneToMany(mappedBy = "cartao",cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
     private List<Biometria> biometrias = new ArrayList<>();
-    @OneToOne(mappedBy = "cartao",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Bloqueio bloqueio;
+    @Enumerated(EnumType.STRING)
+    private StatusCartao statusCartao;
 
     @Deprecated
     public Cartao() {
@@ -31,6 +31,7 @@ public class Cartao {
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
+        this.statusCartao = StatusCartao.ATIVO;
     }
 
     public Long getId() {
@@ -62,8 +63,8 @@ public class Cartao {
         return biometrias.get(p);
     }
 
-    public Bloqueio getBloqueio() {
-        return bloqueio;
+    public StatusCartao getStatusCartao() {
+        return statusCartao;
     }
 
     public String ofuscaNumeroCartao() {
@@ -75,11 +76,10 @@ public class Cartao {
         biometrias.add(biometria);
     }
 
-    public void bloquear(Bloqueio bloqueio) {
-        if(this.bloqueio != null){
+    public void bloquear() {
+        if(this.statusCartao.equals(StatusCartao.BLOQUEADO)){
             throw new CartaoJaEstaBloqueadoException("Esse Cartão Ja Possui Um Bloqueio");
         }
-        this.bloqueio = bloqueio;
-
+        this.statusCartao = StatusCartao.BLOQUEADO;
     }
 }
