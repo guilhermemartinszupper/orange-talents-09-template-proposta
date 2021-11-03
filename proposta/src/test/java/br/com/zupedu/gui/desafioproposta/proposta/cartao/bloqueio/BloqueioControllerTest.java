@@ -38,8 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
 class BloqueioControllerTest {
     @Autowired
-    ObjectMapper mapper;
-    @Autowired
     MockMvc mockMvc;
     @Autowired
     PropostaRepository propostaRepository;
@@ -64,7 +62,6 @@ class BloqueioControllerTest {
     void deveRealizarUmBloqueioParaUmCartaoExistente() throws Exception {
         MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON)
                 .header("User-Agent","PostmanRuntime/7.28.4");
-        SolicitacaoBloqueioResponse bloqueioResponse = Mockito.mock(SolicitacaoBloqueioResponse.class);
         Mockito.when(contaClient.solicitarBloqueio(Mockito.any(),Mockito.any())).thenReturn(new SolicitacaoBloqueioResponse(ResultadoBloqueio.BLOQUEADO));
         mockMvc.perform(consultaRequest)
                 .andDo(print())

@@ -41,4 +41,12 @@ public class AvisoViagem {
     public Long getId() {
         return id;
     }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public LocalDate getDataTermino() {
+        return dataTermino;
+    }
 }

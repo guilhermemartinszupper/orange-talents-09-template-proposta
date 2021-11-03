@@ -1,8 +1,7 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao;
 
-import br.com.zupedu.gui.desafioproposta.handler.CartaoJaEstaBloqueadoException;
+import br.com.zupedu.gui.desafioproposta.handler.FalhaAoBloquearException;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.biometria.Biometria;
-import br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio.Bloqueio;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.viagem.AvisoViagem;
 import org.springframework.util.Assert;
 
@@ -81,7 +80,7 @@ public class Cartao {
 
     public void bloquear() {
         if(this.statusCartao.equals(StatusCartao.BLOQUEADO)){
-            throw new CartaoJaEstaBloqueadoException("Esse Cartão Ja Possui Um Bloqueio");
+            throw new FalhaAoBloquearException("Esse Cartão Ja Possui Um Bloqueio");
         }
         this.statusCartao = StatusCartao.BLOQUEADO;
     }

@@ -1,6 +1,5 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio;
 
-import br.com.zupedu.gui.desafioproposta.handler.CartaoJaEstaBloqueadoException;
 import br.com.zupedu.gui.desafioproposta.handler.FalhaAoBloquearException;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.CartaoRepository;
@@ -34,7 +33,7 @@ public class BloqueioController {
         Cartao cartao = cartaoRepository.findById(idCartao).orElseThrow(() -> new EntityNotFoundException("Cartao nao encontrado"));
         if(cartao.getStatusCartao().equals(StatusCartao.BLOQUEADO)){
             logger.info("Cartao id={} ja esta bloqueado!",cartao.getId());
-            throw new CartaoJaEstaBloqueadoException("Cartao Ja Esta Bloqueado");
+            throw new FalhaAoBloquearException("Cartao Ja Esta Bloqueado");
         }
         logger.info("Cartao ATIVO, Notificando Sistema de Bloqueio");
         notificaBloqueioAoSistemaLegado(cartao,userAgent,request.getLocalAddr());
