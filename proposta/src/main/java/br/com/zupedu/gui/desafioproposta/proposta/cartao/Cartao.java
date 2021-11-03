@@ -3,6 +3,7 @@ package br.com.zupedu.gui.desafioproposta.proposta.cartao;
 import br.com.zupedu.gui.desafioproposta.handler.CartaoJaEstaBloqueadoException;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.biometria.Biometria;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio.Bloqueio;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.viagem.AvisoViagem;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -21,6 +22,8 @@ public class Cartao {
     private List<Biometria> biometrias = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private StatusCartao statusCartao;
+    @OneToMany(mappedBy = "cartao",cascade = CascadeType.ALL)
+    private List<AvisoViagem> avisosViagems = new ArrayList<>();
 
     @Deprecated
     public Cartao() {
@@ -81,5 +84,18 @@ public class Cartao {
             throw new CartaoJaEstaBloqueadoException("Esse Cartão Ja Possui Um Bloqueio");
         }
         this.statusCartao = StatusCartao.BLOQUEADO;
+    }
+
+    public void adicionaAvisoViagem(AvisoViagem avisoViagem) {
+        Assert.notNull(avisoViagem, "AvisoViagem nao pode ser null");
+        this.avisosViagems.add(avisoViagem);
+    }
+
+    public List<AvisoViagem> getAvisosViagems() {
+        return avisosViagems;
+    }
+
+    public AvisoViagem getUltimaViagem(){
+        return this.avisosViagems.get(avisosViagems.size() - 1);
     }
 }
