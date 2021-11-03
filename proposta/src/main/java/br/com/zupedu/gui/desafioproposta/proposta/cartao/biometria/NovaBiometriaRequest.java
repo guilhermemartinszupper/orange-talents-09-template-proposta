@@ -1,6 +1,6 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao.biometria;
 
-import br.com.zupedu.gui.desafioproposta.commons.ValidaBiometria;
+import br.com.zupedu.gui.desafioproposta.commons.validations.ValidaBiometria;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 
 import javax.validation.constraints.NotBlank;

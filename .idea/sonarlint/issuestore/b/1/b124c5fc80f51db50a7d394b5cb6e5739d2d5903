@@ -1,0 +1,9 @@
+
+^
+java:S6355"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(õˆúš
+P
+java:S1133"5Do not forget to remove this deprecated code someday.(ËÍàùÿÿÿÿ
+C
+java:S1123"(Add the missing @deprecated Javadoc tag.(ËÍàùÿÿÿÿ
+q
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(Û‰¸û8¼¼øÍ/

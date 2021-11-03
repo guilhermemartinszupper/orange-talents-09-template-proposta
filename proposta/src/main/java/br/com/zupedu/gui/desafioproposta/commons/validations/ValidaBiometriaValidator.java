@@ -1,4 +1,4 @@
-package br.com.zupedu.gui.desafioproposta.commons;
+package br.com.zupedu.gui.desafioproposta.commons.validations;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

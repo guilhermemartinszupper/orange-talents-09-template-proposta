@@ -1,7 +1,7 @@
 package br.com.zupedu.gui.desafioproposta.proposta;
 
-import br.com.zupedu.gui.desafioproposta.commons.DocumentoExiste;
-import br.com.zupedu.gui.desafioproposta.commons.ValidaDocumento;
+import br.com.zupedu.gui.desafioproposta.commons.validations.DocumentoExiste;
+import br.com.zupedu.gui.desafioproposta.commons.validations.ValidaDocumento;
 import br.com.zupedu.gui.desafioproposta.proposta.analise.StatusProposta;
 
 import javax.validation.constraints.Email;

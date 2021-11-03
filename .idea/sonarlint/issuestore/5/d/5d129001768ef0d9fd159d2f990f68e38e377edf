@@ -1,0 +1,13 @@
+
+^
+java:S6355"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(õˆúš
+P
+java:S1133"5Do not forget to remove this deprecated code someday.(µ®íşÿÿÿÿ
+C
+java:S1123"(Add the missing @deprecated Javadoc tag.(µ®íşÿÿÿÿ
+H
+java:S1068"-Remove this unused "ipCliente" private field.(åË¼üÿÿÿÿ
+C
+java:S1068"-Remove this unused "userAgent" private field.(ñ«ˆİ
+O
+java:S1068"4Remove this unused "instanteBloqueio" private field.(‘¤‰ÿøÿÿÿÿ
