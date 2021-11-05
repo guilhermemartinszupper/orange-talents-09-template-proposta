@@ -40,7 +40,7 @@ public class BloqueioController {
         notificaBloqueioAoSistemaLegado(cartao,userAgent,request.getLocalAddr());
     }
 
-    public void notificaBloqueioAoSistemaLegado(Cartao cartao, String userAgent, String ipClient){
+    private void notificaBloqueioAoSistemaLegado(Cartao cartao, String userAgent, String ipClient){
         Bloqueio bloqueio = new Bloqueio(ipClient,userAgent,cartao);
         try {
             SolicitacaoBloqueioResponse response = contaClient.solicitarBloqueio(cartao.getNumeroCartao(),

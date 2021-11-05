@@ -24,7 +24,7 @@ public class CarteiraDigital {
     public CarteiraDigital(NomeCarteira nomeCarteira, String email, String numeroCarteira, Cartao cartao) {
         Assert.notNull(nomeCarteira,"nomeCarteira nao pode ser null");
         Assert.isTrue(email !=null && !email.isEmpty(),"email nao pode ser null e nem vazio");
-        Assert.isTrue(email !=null && !email.isEmpty(),"numeroCarteira nao pode ser null e nem vazio");
+        Assert.isTrue(numeroCarteira !=null && !numeroCarteira.isEmpty(),"numeroCarteira nao pode ser null e nem vazio");
         Assert.notNull(cartao,"cartao nao pode ser null");
         this.nomeCarteira = nomeCarteira;
         this.numeroCarteira = numeroCarteira;

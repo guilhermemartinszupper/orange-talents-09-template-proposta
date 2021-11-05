@@ -65,9 +65,10 @@ class CarteiraDigitalControllerTest {
         Uri += "/" + idCartao + "/carteiras";
     }
 
-    @Test
-    void deveAssociarUmaCarteiraDigital() throws Exception {
-        CarteiraDigitalRequest carteiraDigitalRequest = new CarteiraDigitalRequest("email@teste.com", NomeCarteira.PAYPAL);
+    @ParameterizedTest
+    @CsvSource(value = {"PAYPAL","SAMSUNG_PAY"})
+    void deveAssociarUmaCarteiraDigital(NomeCarteira carteira) throws Exception {
+        CarteiraDigitalRequest carteiraDigitalRequest = new CarteiraDigitalRequest("email@teste.com", carteira);
         Mockito.when(contaClient.solicitaAssociacaoCarteira(Mockito.any(),Mockito.any())).thenReturn(new SolicitacaoCarteiraDigitalResponse(ResultadoCarteira.ASSOCIADA, UUID.randomUUID().toString()));
         String request = mapper.writeValueAsString(carteiraDigitalRequest);
         MockHttpServletRequestBuilder consultaRequest = post(Uri).contentType(MediaType.APPLICATION_JSON).content(request);
@@ -101,10 +102,11 @@ class CarteiraDigitalControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {"PAYPAL","SAMSUNG_PAY"})
     @Transactional
-    void deveRetornar422CasoCartaoJaEstejaAssociadoAEssaCarteira() throws Exception {
-        CarteiraDigitalRequest carteiraDigitalRequest = new CarteiraDigitalRequest("email@teste.com", NomeCarteira.PAYPAL);
+    void deveRetornar422CasoCartaoJaEstejaAssociadoAEssaCarteira(NomeCarteira carteira) throws Exception {
+        CarteiraDigitalRequest carteiraDigitalRequest = new CarteiraDigitalRequest("email@teste.com", carteira);
         Mockito.when(contaClient.solicitaAssociacaoCarteira(Mockito.any(),Mockito.any())).thenReturn(new SolicitacaoCarteiraDigitalResponse(ResultadoCarteira.ASSOCIADA, UUID.randomUUID().toString()));
         String request = mapper.writeValueAsString(carteiraDigitalRequest);
         MockHttpServletRequestBuilder consultaRequest = post(Uri).contentType(MediaType.APPLICATION_JSON).content(request);

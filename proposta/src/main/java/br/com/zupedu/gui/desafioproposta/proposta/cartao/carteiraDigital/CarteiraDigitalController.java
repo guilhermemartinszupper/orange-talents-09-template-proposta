@@ -32,7 +32,6 @@ public class CarteiraDigitalController {
     private final Logger logger = LoggerFactory.getLogger(CarteiraDigitalController.class);
 
     @PostMapping("/{idCartao}/carteiras")
-    @Transactional
     public ResponseEntity<?> associaCarteiraDigital(@PathVariable Long idCartao,
                                                     @Valid @RequestBody CarteiraDigitalRequest carteiraDigitalRequest,
                                                     UriComponentsBuilder builder){

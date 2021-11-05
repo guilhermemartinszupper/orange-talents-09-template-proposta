@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cartao {
@@ -36,7 +36,6 @@ public class Cartao {
 
     public Cartao(String numeroCartao, LocalDateTime emitidoEm, String titular, Integer limite) {
         Assert.isTrue(numeroCartao != null && !numeroCartao.isEmpty(),"numeroCartao nao pode ser null nem vazio");
-        Assert.isTrue(titular != null && !titular.isEmpty(),"titular nao pode ser null nem vazio");
         Assert.isTrue(titular != null && !titular.isEmpty(),"titular nao pode ser null nem vazio");
         Assert.notNull(emitidoEm,"emitido em nao pode ser null");
         Assert.isTrue(limite != null && limite >= 0,"Limite nao pode ser null nem negativo");
