@@ -1,11 +1,15 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao;
 
-import br.com.zupedu.gui.desafioproposta.handler.FalhaAoBloquearException;
+import br.com.zupedu.gui.desafioproposta.handler.ApiBussinesException;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.biometria.Biometria;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.carteiraDigital.CarteiraDigital;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.carteiraDigital.NomeCarteira;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.viagem.AvisoViagem;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,12 +27,19 @@ public class Cartao {
     private StatusCartao statusCartao;
     @OneToMany(mappedBy = "cartao",cascade = CascadeType.ALL)
     private List<AvisoViagem> avisosViagems = new ArrayList<>();
+    @OneToMany(mappedBy = "cartao",cascade = CascadeType.ALL)
+    private List<CarteiraDigital> carteirasDigitais = new ArrayList<>();
 
     @Deprecated
     public Cartao() {
     }
 
     public Cartao(String numeroCartao, LocalDateTime emitidoEm, String titular, Integer limite) {
+        Assert.isTrue(numeroCartao != null && !numeroCartao.isEmpty(),"numeroCartao nao pode ser null nem vazio");
+        Assert.isTrue(titular != null && !titular.isEmpty(),"titular nao pode ser null nem vazio");
+        Assert.isTrue(titular != null && !titular.isEmpty(),"titular nao pode ser null nem vazio");
+        Assert.notNull(emitidoEm,"emitido em nao pode ser null");
+        Assert.isTrue(limite != null && limite >= 0,"Limite nao pode ser null nem negativo");
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -69,6 +80,14 @@ public class Cartao {
         return statusCartao;
     }
 
+    public CarteiraDigital getUltimaCarteira() {
+        return this.carteirasDigitais.get(carteirasDigitais.size() - 1);
+    }
+
+    public List<CarteiraDigital> getCarteirasDigitais() {
+        return carteirasDigitais;
+    }
+
     public String ofuscaNumeroCartao() {
         return numeroCartao.substring(numeroCartao.length() - 4);
     }
@@ -80,7 +99,7 @@ public class Cartao {
 
     public void bloquear() {
         if(this.statusCartao.equals(StatusCartao.BLOQUEADO)){
-            throw new FalhaAoBloquearException("Esse Cartão Ja Possui Um Bloqueio");
+            throw new ApiBussinesException("Bloqueio","Cartao Ja Esta Bloqueado",HttpStatus.UNPROCESSABLE_ENTITY);
         }
         this.statusCartao = StatusCartao.BLOQUEADO;
     }
@@ -96,5 +115,16 @@ public class Cartao {
 
     public AvisoViagem getUltimaViagem(){
         return this.avisosViagems.get(avisosViagems.size() - 1);
+    }
+
+    public void associaCarteira(CarteiraDigital carteiraDigital) {
+        if(jaPossuiEssaCarteira(carteiraDigital.getNomeCarteira())){
+            throw new ApiBussinesException("Carteira Digital","Esse Cartao Ja Associado a Essa Carteira Digital", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        this.carteirasDigitais.add(carteiraDigital);
+    }
+
+    public boolean jaPossuiEssaCarteira(NomeCarteira carteira) {
+        return this.carteirasDigitais.stream().anyMatch(carteiraDigital -> carteiraDigital.getNomeCarteira().equals(carteira));
     }
 }

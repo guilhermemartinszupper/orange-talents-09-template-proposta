@@ -7,10 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureDataJpa
 @Transactional
 @ActiveProfiles(profiles = "test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
 class BiometriaControllerTest {
     @Autowired
     ObjectMapper mapper;
@@ -36,7 +39,7 @@ class BiometriaControllerTest {
     @Autowired
     PropostaRepository propostaRepository;
 
-    String URI = "/cartoes/biometrias";
+    String URI = "/cartoes";
 
     @BeforeEach()
     void setUp(){
@@ -45,7 +48,7 @@ class BiometriaControllerTest {
         Cartao cartao = new Cartao("1111-2222-3333-4444", LocalDateTime.now(), "Dono Cartao", 1000);
         proposta.setCartao(cartao);
         propostaRepository.save(proposta);
-        URI += "/" + proposta.getCartao().getId();
+        URI += "/" + proposta.getCartao().getId() + "/biometrias";
     }
 
     @Test

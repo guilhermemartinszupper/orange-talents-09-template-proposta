@@ -2,6 +2,8 @@ package br.com.zupedu.gui.desafioproposta.proposta.cartao;
 
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio.SolicitacaoBloqueioRequest;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio.SolicitacaoBloqueioResponse;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.carteiraDigital.SolicitacaoCarteiraDigitalRequest;
+import br.com.zupedu.gui.desafioproposta.proposta.cartao.carteiraDigital.SolicitacaoCarteiraDigitalResponse;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.viagem.NotificacaoAvisoViagemRequest;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.viagem.NotificacaoAvisoViagemResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -15,4 +17,7 @@ public interface ContaClient {
     public SolicitacaoBloqueioResponse solicitarBloqueio(@PathVariable String id, SolicitacaoBloqueioRequest bloqueioRequest);
     @PostMapping("/api/cartoes/{id}/avisos")
     public NotificacaoAvisoViagemResponse notificarViagem(@RequestBody NotificacaoAvisoViagemRequest viagemRequest, @PathVariable String id);
+    @PostMapping("/api/cartoes/{id}/carteiras")
+    public SolicitacaoCarteiraDigitalResponse solicitaAssociacaoCarteira(@RequestBody SolicitacaoCarteiraDigitalRequest solicitacaoCarteiraDigitalRequest,
+                                                                  @PathVariable String id);
 }

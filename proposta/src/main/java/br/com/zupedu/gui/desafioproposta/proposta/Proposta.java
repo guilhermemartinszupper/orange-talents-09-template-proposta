@@ -23,7 +23,7 @@ public class Proposta {
     private BigDecimal salarioBruto;
     @Enumerated(EnumType.STRING)
     private StatusProposta statusProposta;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToOne(cascade = CascadeType.ALL)
     private Cartao cartao;
 
     @Deprecated

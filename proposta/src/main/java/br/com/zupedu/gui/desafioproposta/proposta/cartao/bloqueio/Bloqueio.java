@@ -1,6 +1,7 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio;
 
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,6 +23,9 @@ public class Bloqueio {
     }
 
     public Bloqueio(String ipCliente, String userAgent, Cartao cartao) {
+        Assert.isTrue(ipCliente != null && !ipCliente.isEmpty(),"ipCliente nao pode ser null nem vazio");
+        Assert.isTrue(userAgent != null && !userAgent.isEmpty(),"userAgent nao pode ser null nem vazio");
+        Assert.notNull(cartao,"cartao nao pode ser null");
         this.ipCliente = ipCliente;
         this.userAgent = userAgent;
         this.cartao = cartao;

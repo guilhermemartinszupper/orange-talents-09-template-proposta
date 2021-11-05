@@ -5,7 +5,6 @@ import br.com.zupedu.gui.desafioproposta.proposta.PropostaRepository;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.CartaoRepository;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.ContaClient;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,8 +43,8 @@ class BloqueioControllerTest {
     ContaClient contaClient;
     @Autowired
     CartaoRepository cartaoRepository;
-
-    String URI = "/cartoes/bloqueios";
+    Long idCartao;
+    String Uri = "/cartoes/bloqueios";
 
     @BeforeEach()
     void setUp(){
@@ -55,12 +53,13 @@ class BloqueioControllerTest {
         Cartao cartao = new Cartao("1111-2222-3333-4444", LocalDateTime.now(), "Dono Cartao", 1000);
         proposta.setCartao(cartao);
         propostaRepository.save(proposta);
-        URI += "/" + proposta.getCartao().getId();
+        idCartao = proposta.getCartao().getId();
+        Uri += "/" + idCartao;
     }
 
     @Test
     void deveRealizarUmBloqueioParaUmCartaoExistente() throws Exception {
-        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON)
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(Uri).contentType(MediaType.APPLICATION_JSON)
                 .header("User-Agent","PostmanRuntime/7.28.4");
         Mockito.when(contaClient.solicitarBloqueio(Mockito.any(),Mockito.any())).thenReturn(new SolicitacaoBloqueioResponse(ResultadoBloqueio.BLOQUEADO));
         mockMvc.perform(consultaRequest)
@@ -69,24 +68,25 @@ class BloqueioControllerTest {
     }
     @Test
     void deveRetornar400CasoNaoTenhaUserAgent() throws Exception {
-        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON);
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(Uri).contentType(MediaType.APPLICATION_JSON);
         mockMvc.perform(consultaRequest)
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
     @Test
     void deveRetornar404CasoCartaoNaoExista() throws Exception {
-        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI + "404").contentType(MediaType.APPLICATION_JSON)
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(Uri + "404").contentType(MediaType.APPLICATION_JSON)
                 .header("User-Agent","PostmanRuntime/7.28.4");
         mockMvc.perform(consultaRequest)
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
     @Test
+    @Transactional
     void deveRetornar422CasoJaExistaUmBloqueioParaOCartao() throws Exception {
-        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON)
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(Uri).contentType(MediaType.APPLICATION_JSON)
                 .header("User-Agent","PostmanRuntime/7.28.4");
-        Optional<Cartao> cartao = cartaoRepository.findById(1L);
+        Optional<Cartao> cartao = cartaoRepository.findById(idCartao);
         cartao.get().bloquear();
         mockMvc.perform(consultaRequest)
                 .andDo(print())

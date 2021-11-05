@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,21 +40,10 @@ public class RestControllerAdviceHandler {
         });
         return erros;
     }
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(DocumentoRepetidoException.class)
-    public ErroDTO handleDocumentoRepetidoException(DocumentoRepetidoException exception){
-        return new ErroDTO("documento",exception.getMessage());
-    }
 
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(FalhaAoBloquearException.class)
-    public ErroDTO handleDocumentoRepetidoException(FalhaAoBloquearException exception){
-        return new ErroDTO("bloqueio",exception.getMessage());
-    }
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(FalhaAoNotificarViagemException.class)
-    public ErroDTO handleDocumentoRepetidoException(FalhaAoNotificarViagemException exception){
-        return new ErroDTO("aviso viagem",exception.getMessage());
+    @ExceptionHandler(ApiBussinesException.class)
+    public ResponseEntity<ErroDTO> handleDocumentoRepetidoException(ApiBussinesException exception){
+        return ResponseEntity.status(exception.getHttpStatus()).body(new ErroDTO(exception.getCampo(),exception.getMessage()));
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

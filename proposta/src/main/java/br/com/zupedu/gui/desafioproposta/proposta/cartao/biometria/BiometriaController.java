@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/cartoes/biometrias")
+@RequestMapping("/cartoes")
 public class BiometriaController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class BiometriaController {
 
     private final Logger logger = LoggerFactory.getLogger(BiometriaController.class);
 
-    @PostMapping("/{idCartao}")
+    @PostMapping("/{idCartao}/biometrias")
     @Transactional
     public ResponseEntity<?> cadastraBiometria(@PathVariable Long idCartao, @Valid @RequestBody NovaBiometriaRequest biometriaRequest, UriComponentsBuilder builder){
         Cartao cartao = cartaoRepository.findById(idCartao).orElseThrow(() -> new EntityNotFoundException("Cartao nao encontrado"));

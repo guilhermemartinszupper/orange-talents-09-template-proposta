@@ -67,7 +67,7 @@ class AvisoViagemControllerTest {
         Mockito.when(contaClient.notificarViagem(Mockito.any(),Mockito.any())).thenReturn(new NotificacaoAvisoViagemResponse(ViagemResultado.CRIADO));
         String request = mapper.writeValueAsString(avisoViagemRequest);
         MockHttpServletRequestBuilder consultaRequest = post(URI).contentType(MediaType.APPLICATION_JSON).content(request)
-                .header("User-Agent","PostmanRuntime/7.28.4");;
+                .header("User-Agent","PostmanRuntime/7.28.4");
         mockMvc.perform(consultaRequest)
                 .andDo(print())
                 .andExpect(status().isOk());

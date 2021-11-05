@@ -1,6 +1,6 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio;
 
-import br.com.zupedu.gui.desafioproposta.handler.FalhaAoBloquearException;
+import br.com.zupedu.gui.desafioproposta.handler.ApiBussinesException;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.CartaoRepository;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.ContaClient;
@@ -9,6 +9,7 @@ import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,7 +34,7 @@ public class BloqueioController {
         Cartao cartao = cartaoRepository.findById(idCartao).orElseThrow(() -> new EntityNotFoundException("Cartao nao encontrado"));
         if(cartao.getStatusCartao().equals(StatusCartao.BLOQUEADO)){
             logger.info("Cartao id={} ja esta bloqueado!",cartao.getId());
-            throw new FalhaAoBloquearException("Cartao Ja Esta Bloqueado");
+            throw new ApiBussinesException("Bloqueio","Cartao Ja Esta Bloqueado",HttpStatus.UNPROCESSABLE_ENTITY);
         }
         logger.info("Cartao ATIVO, Notificando Sistema de Bloqueio");
         notificaBloqueioAoSistemaLegado(cartao,userAgent,request.getLocalAddr());
@@ -55,12 +56,12 @@ public class BloqueioController {
             logger.error("Nao Foi Possivel Bloquear o Cartao error= {}",e.getMessage());
             bloqueio.setResultadoBloqueio(ResultadoBloqueio.FALHA);
             bloqueioRepository.save(bloqueio);
-            throw new FalhaAoBloquearException("Nao foi possivel bloquear o cartao, tente mais tarde");
+            throw new ApiBussinesException("Bloqueio","Falha ao Bloquear o Cartao", HttpStatus.UNPROCESSABLE_ENTITY);
         }catch (FeignException e){
             logger.error("O serviço esta fora do ar");
             bloqueio.setResultadoBloqueio(ResultadoBloqueio.FALHA);
             bloqueioRepository.save(bloqueio);
-            throw new FalhaAoBloquearException("Nao foi possivel bloquear o cartao, tente mais tarde");
+            throw new ApiBussinesException("Bloqueio","Falha ao Bloquear o Cartao", HttpStatus.BAD_GATEWAY);
         }
     }
 }

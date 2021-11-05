@@ -1,6 +1,7 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao.biometria;
 
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.util.Objects;
 public class Biometria {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "blob",nullable = false)
+    @Column(columnDefinition = "text",nullable = false)
     private String fingerPrint;
     @Column(nullable = false)
     private LocalDateTime dataCadastro = LocalDateTime.now();
@@ -22,6 +23,8 @@ public class Biometria {
     }
 
     public Biometria(String fingerPrint, Cartao cartao) {
+        Assert.isTrue(fingerPrint != null && !fingerPrint.isEmpty(),"fingerprint nao pode ser null nem vazia");
+        Assert.notNull(cartao,"cartao nao pode ser null");
         this.fingerPrint = fingerPrint;
         this.cartao = cartao;
     }

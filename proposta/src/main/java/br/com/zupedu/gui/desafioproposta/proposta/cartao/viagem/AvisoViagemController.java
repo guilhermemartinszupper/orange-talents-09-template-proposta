@@ -1,6 +1,6 @@
 package br.com.zupedu.gui.desafioproposta.proposta.cartao.viagem;
 
-import br.com.zupedu.gui.desafioproposta.handler.FalhaAoNotificarViagemException;
+import br.com.zupedu.gui.desafioproposta.handler.ApiBussinesException;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.CartaoRepository;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.ContaClient;
@@ -8,6 +8,7 @@ import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,11 +41,11 @@ public class AvisoViagemController {
             }
         }catch (FeignException.UnprocessableEntity e){
             logger.error("Nao Foi Possivel Associar Viagem ao Cartao error= {}",e.getMessage());
-            throw new FalhaAoNotificarViagemException("Nao foi possivel notificar a viagem, tente mais tarde");
+            throw new ApiBussinesException("Aviso Viagem","Falha ao Notificar Viagem", HttpStatus.UNPROCESSABLE_ENTITY);
         }catch (FeignException e){
             logger.error("O serviço esta fora do ar");
             logger.error(e.contentUTF8());
-            throw new FalhaAoNotificarViagemException("Nao foi possivel notificar a viagem, tente mais tarde");
+            throw new ApiBussinesException("Aviso Viagem","Falha ao Notificar Viagem", HttpStatus.BAD_GATEWAY);
         }
     }
 }
