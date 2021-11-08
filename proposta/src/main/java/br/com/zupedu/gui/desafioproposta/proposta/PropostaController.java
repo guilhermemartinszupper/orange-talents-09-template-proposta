@@ -43,9 +43,9 @@ public class PropostaController {
 
 
     private void novaPropostaCriada(Proposta proposta) {
-        String documento = proposta.getDocumento().substring(0,3)
+        String documento = proposta.getDocumentoCriptografado().substring(0,3)
                 + "***-"
-                + proposta.getDocumento().substring(proposta.getDocumento().length() - 2);
+                + proposta.getDocumentoCriptografado().substring(proposta.getDocumentoCriptografado().length() - 2);
         logger.info("Proposta id={}, documento={}, salário={} criada com sucesso!",
                 proposta.getId(),documento, proposta.getSalarioBruto());
     }

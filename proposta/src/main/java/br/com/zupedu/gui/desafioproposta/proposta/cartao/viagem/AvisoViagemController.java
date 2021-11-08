@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/cartoes/viagens")
+@RequestMapping("/cartoes")
 public class AvisoViagemController {
     @Autowired
     private CartaoRepository cartaoRepository;
@@ -26,7 +26,7 @@ public class AvisoViagemController {
 
     private final Logger logger = LoggerFactory.getLogger(AvisoViagemController.class);
 
-    @PostMapping("/{idCartao}")
+    @PostMapping("/{idCartao}/viagens")
     @Transactional
     public void notificarViagem(@PathVariable Long idCartao, @Valid @RequestBody AvisoViagemRequest avisoViagemRequest, HttpServletRequest httpRequest){
         Cartao cartao = cartaoRepository.findById(idCartao).orElseThrow(() -> new EntityNotFoundException("Cartao nao encontrado"));

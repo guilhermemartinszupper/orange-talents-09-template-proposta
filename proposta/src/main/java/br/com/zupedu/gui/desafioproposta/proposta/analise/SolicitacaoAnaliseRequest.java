@@ -10,10 +10,10 @@ public class SolicitacaoAnaliseRequest {
 
     public SolicitacaoAnaliseRequest(Proposta proposta) {
         Assert.notNull(proposta,"proposta nao pode ser nula");
-        Assert.isTrue(proposta.getDocumento() != null && !proposta.getDocumento().isEmpty(),"documento nao pode ser nulo nem vazio");
+        Assert.isTrue(proposta.getDocumentoCriptografado() != null && !proposta.getDocumentoCriptografado().isEmpty(),"documento nao pode ser nulo nem vazio");
         Assert.isTrue(proposta.getNome() != null && !proposta.getNome().isEmpty(),"nome nao pode ser nulo nem vazio");
         Assert.isTrue(proposta.getId() != null,"idProposta nao pode ser nulo");
-        this.documento = proposta.getDocumento();
+        this.documento = proposta.getDocumentoCriptografado();
         this.nome = proposta.getNome();
         this.idProposta = proposta.getId().toString();
     }

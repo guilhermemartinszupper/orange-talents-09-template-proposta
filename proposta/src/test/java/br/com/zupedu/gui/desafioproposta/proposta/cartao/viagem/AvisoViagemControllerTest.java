@@ -4,8 +4,6 @@ import br.com.zupedu.gui.desafioproposta.proposta.Proposta;
 import br.com.zupedu.gui.desafioproposta.proposta.PropostaRepository;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.ContaClient;
-import br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio.ResultadoBloqueio;
-import br.com.zupedu.gui.desafioproposta.proposta.cartao.bloqueio.SolicitacaoBloqueioResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,14 +20,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,7 +46,7 @@ class AvisoViagemControllerTest {
     @MockBean
     ContaClient contaClient;
 
-    String URI = "/cartoes/viagens";
+    String URI = "/cartoes";
 
     @BeforeEach()
     void setUp(){
@@ -58,7 +55,7 @@ class AvisoViagemControllerTest {
         Cartao cartao = new Cartao("1111-2222-3333-4444", LocalDateTime.now(), "Dono Cartao", 1000);
         proposta.setCartao(cartao);
         propostaRepository.save(proposta);
-        URI += "/" + proposta.getCartao().getId();
+        URI += "/" + proposta.getCartao().getId() + "/viagens";
     }
 
     @Test

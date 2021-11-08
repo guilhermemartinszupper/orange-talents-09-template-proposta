@@ -44,7 +44,7 @@ class BloqueioControllerTest {
     @Autowired
     CartaoRepository cartaoRepository;
     Long idCartao;
-    String Uri = "/cartoes/bloqueios";
+    String Uri = "/cartoes";
 
     @BeforeEach()
     void setUp(){
@@ -54,7 +54,7 @@ class BloqueioControllerTest {
         proposta.setCartao(cartao);
         propostaRepository.save(proposta);
         idCartao = proposta.getCartao().getId();
-        Uri += "/" + idCartao;
+        Uri += "/" + idCartao + "/bloqueios";
     }
 
     @Test

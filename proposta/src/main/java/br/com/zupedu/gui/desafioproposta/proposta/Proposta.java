@@ -1,5 +1,6 @@
 package br.com.zupedu.gui.desafioproposta.proposta;
 
+import br.com.zupedu.gui.desafioproposta.commons.encrypter.Encriptador;
 import br.com.zupedu.gui.desafioproposta.proposta.analise.StatusProposta;
 import br.com.zupedu.gui.desafioproposta.proposta.cartao.Cartao;
 import org.springframework.util.Assert;
@@ -12,7 +13,10 @@ public class Proposta {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true,nullable = false)
-    private String documento;
+    @Convert(converter = Encriptador.class)
+    private String documentoCriptografado;
+    @Column(unique = true,nullable = false)
+    private String documentoHash;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
@@ -36,7 +40,9 @@ public class Proposta {
         Assert.isTrue(nome != null && nome.length() > 0, "Nome nao pode ser vazio e nem nulo");
         Assert.isTrue(endereco != null && endereco.length() > 0, "Endereco nao pode ser vazio e nem nulo");
         Assert.isTrue(salarioBruto != null && salarioBruto.compareTo(BigDecimal.ZERO) > -1, "Salario nao pode ser nulo nem negativo");
-        this.documento = documento.replaceAll("[^a-zA-Z0-9]", "");
+        String documentoLimpo = documento.replaceAll("[^a-zA-Z0-9]", "");
+        this.documentoCriptografado = documentoLimpo;
+        this.documentoHash = Encriptador.hashEncode(documentoLimpo);
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -47,8 +53,8 @@ public class Proposta {
         return id;
     }
 
-    public String getDocumento() {
-        return documento;
+    public String getDocumentoCriptografado() {
+        return documentoCriptografado;
     }
 
     public String getEmail() {
@@ -77,6 +83,10 @@ public class Proposta {
 
     public void setStatusProposta(StatusProposta statusProposta) {
         this.statusProposta = statusProposta;
+    }
+
+    public String getDocumentoHash() {
+        return documentoHash;
     }
 
     public void setCartao(Cartao cartao) {

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PropostaRepository extends JpaRepository<Proposta, Long> {
-    Optional<Proposta> findByDocumento(String documento);
+    Optional<Proposta> findByDocumentoHash(String documentoHash);
 
     List<Proposta> findAllByStatusProposta(StatusProposta emAnalise, Pageable page);
 

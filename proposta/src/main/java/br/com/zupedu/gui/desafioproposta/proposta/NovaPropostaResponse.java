@@ -16,7 +16,7 @@ public class NovaPropostaResponse {
     }
 
     public NovaPropostaResponse(Proposta proposta) {
-        this.documento = proposta.getDocumento();
+        this.documento = proposta.getDocumentoCriptografado();
         this.email = proposta.getEmail();
         this.nome = proposta.getNome();
         this.endereco = proposta.getEndereco();

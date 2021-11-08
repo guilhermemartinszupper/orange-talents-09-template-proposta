@@ -18,7 +18,7 @@ public class PropostaDetalhadaResponse {
     public PropostaDetalhadaResponse(Proposta proposta) {
         Assert.notNull(proposta, "proposta nao pode ser null");
         this.id = proposta.getId();
-        this.documento = proposta.getDocumento();
+        this.documento = proposta.getDocumentoCriptografado();
         this.email = proposta.getEmail();
         this.nome = proposta.getNome();
         this.endereco = proposta.getEndereco();

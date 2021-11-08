@@ -16,7 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/cartoes/bloqueios")
+@RequestMapping("/cartoes")
 public class BloqueioController {
     @Autowired
     CartaoRepository cartaoRepository;
@@ -29,7 +29,7 @@ public class BloqueioController {
 
     private final Logger logger = LoggerFactory.getLogger(BloqueioController.class);
 
-    @PostMapping("/{idCartao}")
+    @PostMapping("/{idCartao}/bloqueios")
     public void solicitaBloqueio(@PathVariable Long idCartao, @RequestHeader("User-Agent") String userAgent, HttpServletRequest request){
         Cartao cartao = cartaoRepository.findById(idCartao).orElseThrow(() -> new EntityNotFoundException("Cartao nao encontrado"));
         if(cartao.getStatusCartao().equals(StatusCartao.BLOQUEADO)){

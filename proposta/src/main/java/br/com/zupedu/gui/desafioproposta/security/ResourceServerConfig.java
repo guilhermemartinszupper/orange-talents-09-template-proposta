@@ -16,10 +16,10 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                         .antMatchers(HttpMethod.GET, "/actuator/prometheus").permitAll()
-                        .antMatchers(HttpMethod.GET, "/propostas/**").hasAuthority("SCOPE_proposta-scope")
-                        .antMatchers(HttpMethod.POST, "/propostas/**").hasAuthority("SCOPE_proposta-scope")
-                        .antMatchers(HttpMethod.POST, "/biometrias/**").hasAuthority("SCOPE_proposta-scope")
-                        .antMatchers(HttpMethod.POST, "/actuator/**").hasAuthority("SCOPE_proposta-scope")
+                        .antMatchers(HttpMethod.GET, "/propostas/**").hasAuthority("SCOPE_escopo-proposta")
+                        .antMatchers(HttpMethod.POST, "/propostas/**").hasAuthority("SCOPE_escopo-proposta")
+                        .antMatchers(HttpMethod.POST, "/biometrias/**").hasAuthority("SCOPE_escopo-proposta")
+                        .antMatchers(HttpMethod.POST, "/actuator/**").hasAuthority("SCOPE_escopo-proposta")
                         .anyRequest().authenticated()
         ).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
